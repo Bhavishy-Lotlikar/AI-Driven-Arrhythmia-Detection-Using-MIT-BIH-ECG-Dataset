@@ -91,11 +91,11 @@ Download MIT-BIH (CSV format) from Kaggle or PhysioNet and place inside:
 ```bash
 /DATA/
 ```
-Dataset Reference:
+- Dataset Reference:
 🔗 https://physionet.org/content/mitdb/1.0.0/
-Kaggle Dataset Reference: 
+- Kaggle Dataset Reference: 
 🔗 https://www.kaggle.com/datasets/shayanfazeli/heartbeat
-⚠️ Due to licensing, the dataset is not distributed with this repo.
+- ⚠️ Due to licensing, the dataset is not distributed with this repo.
 
 ---
 ▶️ Run GUI Application
@@ -107,7 +107,7 @@ Kaggle Dataset Reference:
 
 Then:
 
--Click Load ECG CSV
--Move the slider or enter beat index
--View prediction & metrics instantly 🎯
+- Click Load ECG CSV
+- Move the slider or enter beat index
+- View prediction & metrics instantly 🎯
 
