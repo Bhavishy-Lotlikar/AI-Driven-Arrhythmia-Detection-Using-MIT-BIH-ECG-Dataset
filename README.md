@@ -1,121 +1,232 @@
-# 🫀 Offline ECG Arrhythmia Detection using Deep Learning (DeepECG-Net)
+# 🫀 AI-Driven Arrhythmia Detection Using MIT-BIH ECG Dataset
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Status](https://img.shields.io/badge/Model%20Accuracy-98%25-brightgreen)
 
-A lightweight **1D Convolutional Neural Network (CNN)** trained on the **MIT-BIH Arrhythmia Dataset** for beat-level heart arrhythmia detection.
+This repository contains a lightweight **1D Convolutional Neural Network (CNN)** and an offline **desktop GUI** for beat-level ECG arrhythmia detection using the **MIT-BIH Arrhythmia Dataset**.
 
-The trained model predicts **5 clinically important ECG beat types**:
+The trained model classifies each beat into **five ECG classes**:
 
-| Label | Class Name | Description |
-|------|------------|-------------|
-| **N** | Normal beat | Healthy cardiac rhythm |
-| **S** | Supraventricular ectopic | Abnormal atrial origin |
-| **V** | Ventricular ectopic | Ventricular arrhythmia — *potentially dangerous* |
-| **F** | Fusion beat | Fusion of ventricular + normal activation |
-| **Q** | Unknown / Paced | Pacemaker-related heartbeat |
-
----
-
-## 📸 Screenshots
-
-| ECG Waveform | Prediction + Confidence Scores |
-|-------------|------------------------------|
-| ![](docs/waveform.png) | ![](docs/confidence.png) |
-
-*(You can replace these with your own images)*
-
----
-
-## 🚀 Features
-✔ Works **offline** (fully local execution)  
-✔ Visual ECG waveform plotting  
-✔ Model confidence bar graph  
-✔ Dark-mode, modern GUI (CustomTkinter)  
-✔ Fast predictions — CPU friendly  
-✔ MIT-BIH standard CSV support (187 sample beat format)
+| Label | Class Name                     | Description                                   |
+|-------|--------------------------------|-----------------------------------------------|
+| N     | Normal beat                    | Healthy cardiac rhythm                        |
+| S     | Supraventricular ectopic beat  | Abnormal atrial-origin beat                   |
+| V     | Ventricular ectopic beat       | Ventricular arrhythmia (clinically important) |
+| F     | Fusion beat                    | Fusion of normal and ectopic activation       |
+| Q     | Unknown / Paced beat           | Pacemaker / unclassified beat                 |
 
 ---
 
 ## 📊 Model Performance
-- **98% test accuracy**
-- Robust detection of Ventricular (V) arrhythmia
-- Class-balanced training for fairness
 
-| Metric | Value |
-|--------|------|
-| Accuracy | **98%** |
-| Weighted F1-score | 0.98 |
-| Training time | ~4–6 minutes (Google Colab TPU) |
+The final CNN, trained on the MIT-BIH processed beat dataset:
 
-📌 Evaluation includes confusion matrix, precision, recall, F1-score.
+- **Test Accuracy:** **98.0%**
+- **Weighted F1-score:** ~0.98
+- Strong performance on critical **Ventricular (V)** beats
+- Reasonable recall on minority classes (S, F) despite imbalance
+
+Evaluation includes:
+
+- Confusion matrix (raw + normalized)
+- Per-class precision, recall, F1-score
+- Overall accuracy summary
 
 ---
 
-## 🧠 Model Architecture — DeepECG-Net
+## 🧠 Model Overview – DeepECG-Net
 
-- CNN 1D feature extractors (7×32 and 5×64 filters)
-- Batch Normalization
-- MaxPool + Dropout
-- Dense(64) + Softmax(5 classes)
+A compact 1D CNN designed to run efficiently on CPU-only systems:
 
-Optimized to run efficiently on low-resource machines.
+- Conv1D + BatchNorm + MaxPooling blocks
+- Dropout regularization
+- Dense layer + Softmax (5 outputs)
+- Trained with:
+  - Adam optimizer
+  - Class weights for imbalance
+  - EarlyStopping + ReduceLROnPlateau
+  - Best-model checkpointing
+
+The full training pipeline is provided in the notebook inside `training_notebooks/`.
+
+---
+
+## 🖥️ Offline GUI Features
+
+The desktop application (`ecg_gui_app.py`) provides:
+
+- CSV loader for ECG beats (187 samples per beat, optional label column)
+- Slider + manual input to navigate beats
+- Real-time ECG waveform plotting (Matplotlib)
+- Confidence bar chart for the 5 classes
+- Dark mode UI using **CustomTkinter**
+- Works fully **offline** once the model + params are present
 
 ---
 
 ## 📂 Project Structure
-ECG-Arrhythmia-Detection/
+
+```text
+AI-Driven-Arrhythmia-Detection-Using-MIT-BIH-ECG-Dataset/
 │
 ├── ecg_gui_app.py              # Desktop GUI application
-├── ecg_cnn_model.keras         # Trained CNN model
-├── preprocess_params.npz       # Normalization parameters
-├── class_maps.json             # Class label mapping
+├── ecg_cnn_model.keras         # Trained CNN model (Keras format)
+├── preprocess_params.npz       # Normalization parameters (X_min, X_max)
+├── class_maps.json             # Class label mapping (index -> N/S/V/F/Q)
 ├── requirements.txt            # Python dependencies
-├── README.md                   # Documentation
+├── README.md                   # This documentation
 │
-├── training_notebooks/
-│   └── model_training.ipynb    # Training + evaluation notebook
+├── training_notebooks/         # Google Colab / Jupyter notebooks
+│   └── model_training.ipynb
 │
-└── DATA/                       # Place dataset here
-    ├── mitbih_train.csv
-    ├── mitbih_test.csv
-    └── (your own ECG CSV files)
-
-
+└── DATA/                       # 🔹 Place ECG CSV files here (not tracked)
+    ├── mitbih_train.csv        # (user-provided)
+    ├── mitbih_test.csv         # (user-provided)
+    └── other_ecg_files.csv
+```
 
 ---
 
 ## 🛠️ Installation & Setup
 
-### 1️⃣ Install dependencies
+### 1️⃣ Clone the repository
+
+```bash
+git clone https://github.com/Bhavishy-Lotlikar/AI-Driven-Arrhythmia-Detection-Using-MIT-BIH-ECG-Dataset.git
+cd AI-Driven-Arrhythmia-Detection-Using-MIT-BIH-ECG-Dataset
+```
+
+### 2️⃣ (Optional) Create a virtual environment
+
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Linux / macOS
+source venv/bin/activate
+```
+
+### 3️⃣ Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
-### 2️⃣ Add the Dataset
-
-Download MIT-BIH (CSV format) from Kaggle or PhysioNet and place inside:
-```bash
-/DATA/
-```
-- Dataset Reference:
-🔗 https://physionet.org/content/mitdb/1.0.0/
-- Kaggle Dataset Reference: 
-🔗 https://www.kaggle.com/datasets/shayanfazeli/heartbeat
-- ⚠️ Due to licensing, the dataset is not distributed with this repo.
 
 ---
-▶️ Run GUI Application
-- Open CMD in the same path as the "ecg_gui_app.py"
-  then run
-  ```bash
-  python ecg_gui_app.py
-  ```
 
-Then:
+## 📥 Dataset
 
-- Click Load ECG CSV
-- Move the slider or enter beat index
-- View prediction & metrics instantly 🎯
+This project uses the **MIT-BIH Arrhythmia Database** (beat-wise CSV format derived from PhysioNet / Kaggle versions).
 
+Dataset reference (not included in repo):
+
+- PhysioNet MIT-BIH Arrhythmia Database:  
+  https://physionet.org/content/mitdb/1.0.0/
+
+Place the CSV files (e.g. `mitbih_train.csv`, `mitbih_test.csv`) inside the `DATA/` folder.
+
+Expected formats:
+
+- **Labeled**: 188 columns → 187 samples + 1 label  
+- **Unlabeled**: 187 columns → samples only
+
+The GUI and notebook automatically handle both.
+
+---
+
+## ▶️ Running the GUI
+
+Once dependencies and model files are in place:
+
+```bash
+python ecg_gui_app.py
+```
+
+Steps inside the app:
+
+1. Click **“Load ECG CSV”**
+2. Select a file (e.g. `DATA/mitbih_test.csv`)
+3. Use the slider or type a beat index
+4. View the waveform + prediction + confidence scores
+
+---
+
+## 🧪 Retraining the Model
+
+If you want to retrain or modify the architecture:
+
+1. Open `training_notebooks/model_training.ipynb` in Google Colab / Jupyter.
+2. Upload `mitbih_train.csv` and `mitbih_test.csv`.
+3. Run cells 1–4 to:
+   - Load and preprocess data
+   - Train DeepECG-Net
+   - Evaluate performance
+   - Export:
+     - `ecg_cnn_model.keras`
+     - `preprocess_params.npz`
+     - `class_maps.json`
+4. Replace the old files in the repo root with the newly generated ones.
+
+The GUI will automatically use the new model.
+
+---
+
+## 🔍 Explainability & Robustness (Optional Experiments)
+
+Experiments performed in the notebook (or to be extended):
+
+- **Saliency / gradient-based maps** → confirm focus on QRS complex
+- **Noise robustness**:
+  - Added Gaussian noise
+  - Baseline wander
+  - Performance degrades gracefully with proper normalization
+
+Future improvements can integrate SHAP or LIME-based interpretation.
+
+---
+
+## 🎯 Future Work
+
+- Improve recall for minority classes (S and F) via:
+  - Data augmentation
+  - Focal loss / cost-sensitive training
+- Real-time continuous ECG stream processing
+- TensorFlow Lite conversion for mobile / embedded deployment
+- Additional leads and multi-channel models
+
+---
+
+## 👥 Contributors
+
+| Name | Contribution |
+|------|--------------|
+| **Bhavishy Lotlikar** | Lead development, GUI integration, debugging |
+| **Deepam Mhatre** | Training pipeline, preprocessing, class balancing |
+| **Aditya Mahale** | GUI layout and interaction design |
+| **Parth Mahajan** | Confidence score visualization & slider logic |
+| **Purvesh Neve** | Documentation, testing, and result verification |
+
+---
+
+## ⚠️ Disclaimer
+
+This software is intended **for educational and research purposes only**.  
+It is **not** a certified medical device and must **not** be used for clinical diagnosis or treatment decisions without proper regulatory approval and expert supervision.
+
+---
+
+## 📜 License
+
+This project is released under the **MIT License**.  
+You are free to use, modify and distribute it with attribution.
+
+---
+
+## ⭐ Acknowledgements
+
+- MIT-BIH Arrhythmia Database and PhysioNet for ECG data.
+- Open-source contributors of TensorFlow, NumPy, Pandas, Matplotlib, and CustomTkinter.
+
+If you find this project helpful, please consider ⭐ starring the repository on GitHub!
