@@ -145,8 +145,8 @@ The GUI and notebook automatically handle both.
 
 ## ▶️ Running the GUI
 
-Once dependencies and model files are in place:
-
+- Once dependencies and model files are in place:
+- Open Cmd in the same path as ecg_gui_app.py and then run: 
 ```bash
 python ecg_gui_app.py
 ```
