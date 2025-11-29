@@ -98,6 +98,10 @@ git clone https://github.com/Bhavishy-Lotlikar/AI-Driven-Arrhythmia-Detection-Us
 cd AI-Driven-Arrhythmia-Detection-Using-MIT-BIH-ECG-Dataset
 ```
 
+**or**
+
+**Download as a Zip file and extract to required destination**
+
 ### 2️⃣ (Optional) Create a virtual environment
 
 ```bash
@@ -124,6 +128,8 @@ Dataset reference (not included in repo):
 
 - PhysioNet MIT-BIH Arrhythmia Database:  
   https://physionet.org/content/mitdb/1.0.0/
+- Kaggle DataSet link:
+  https://www.kaggle.com/datasets/shayanfazeli/heartbeat  
 
 Place the CSV files (e.g. `mitbih_train.csv`, `mitbih_test.csv`) inside the `DATA/` folder.
 
@@ -170,20 +176,6 @@ If you want to retrain or modify the architecture:
 4. Replace the old files in the repo root with the newly generated ones.
 
 The GUI will automatically use the new model.
-
----
-
-## 🔍 Explainability & Robustness (Optional Experiments)
-
-Experiments performed in the notebook (or to be extended):
-
-- **Saliency / gradient-based maps** → confirm focus on QRS complex
-- **Noise robustness**:
-  - Added Gaussian noise
-  - Baseline wander
-  - Performance degrades gracefully with proper normalization
-
-Future improvements can integrate SHAP or LIME-based interpretation.
 
 ---
 
