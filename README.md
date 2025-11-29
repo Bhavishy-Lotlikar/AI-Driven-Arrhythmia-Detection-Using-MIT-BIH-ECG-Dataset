@@ -75,6 +75,7 @@ AI-Driven-Arrhythmia-Detection-Using-MIT-BIH-ECG-Dataset/
 ├── ecg_cnn_model.keras         # Trained CNN model (Keras format)
 ├── preprocess_params.npz       # Normalization parameters (X_min, X_max)
 ├── class_maps.json             # Class label mapping (index -> N/S/V/F/Q)
+├── predict_ecg.py 
 ├── requirements.txt            # Python dependencies
 ├── README.md                   # This documentation
 │
