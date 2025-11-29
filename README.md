@@ -66,15 +66,22 @@ Optimized to run efficiently on low-resource machines.
 ---
 
 ## 📂 Project Structure
-ECG-Arrhythmia-Detection/
-│── ecg_gui_app.py # Desktop GUI
-│── ecg_cnn_model.keras # Trained model
-│── preprocess_params.npz # Normalization parameters
-│── class_maps.json # Class name mapping
-│── training_notebooks/ # Jupyter/Colab training files
-│── DATA/ # (User adds dataset here)
-│── README.md # Documentation
-│── requirements.txt
+ ECG-Arrhythmia-Detection/
+│
+├── ecg_gui_app.py # Desktop GUI
+├── ecg_cnn_model.keras # Trained CNN Model
+├── preprocess_params.npz # Normalization parameters (X_min, X_max)
+├── class_maps.json # Class label mapping (N, S, V, F, Q)
+├── requirements.txt # ML + GUI dependencies
+├── README.md # Documentation
+│
+├── training_notebooks/ # Jupyter/Colab training files
+│ └── model_training.ipynb
+│
+└── DATA/ # 🔹 Put your ECG CSV dataset here
+├── mitbih_train.csv
+├── mitbih_test.csv
+└── (other ECG test files)
 
 
 ---
